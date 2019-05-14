@@ -1,1 +1,1 @@
-web: bash deploy.sh
+web: gunicorn server_api.py:app

@@ -1,19 +1,22 @@
 import requests
 import datetime
-import re, sys, json
+import re, sys, json, os
 from bs4 import BeautifulSoup
 
 #========================================================
 # logs
 import logging
 from logging.handlers import RotatingFileHandler
- 
+
+os.mkdir('logs')
+os.makedirs('web/api/programme_tv')
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
 #file
-file_handler = RotatingFileHandler('/app/logs/programme_tv.log', 'a', 1000000, 1)
+file_handler = RotatingFileHandler('logs/programme_tv.log', 'a', 1000000, 1)
 file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
@@ -96,7 +99,7 @@ for type_prog in types:
     urls = get_links(url)
     data = get_program(urls)
 
-    with open('/app/web/api/programme_tv/' + type_prog + '.json', 'w+') as fp:
+    with open('web/api/programme_tv/' + type_prog + '.json', 'w+') as fp:
         json.dump(data, fp)
     logger.info(type_prog + ' done')
 
