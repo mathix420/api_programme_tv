@@ -1,5 +1,5 @@
 from flask import Flask, send_from_directory
-import os
+import scrapper_tv
 app = Flask(__name__)
 
 @app.route("/")
@@ -12,5 +12,5 @@ def api(filename):
                                filename + '.json', as_attachment=False)
 
 if __name__ == "__main__":
-    os.system("python3 scrapper_tv.py")
+    scrapper_tv.main()
     app.run()
