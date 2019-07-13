@@ -8,5 +8,7 @@ def hello():
 
 @app.route("/api/<path:filename>")
 def api(filename):
-    return send_from_directory('web/api/programme_tv',
-                               filename + '.json', as_attachment=False)
+    r = send_from_directory('web/api/programme_tv',
+            filename + '.json', as_attachment=False)
+    r.headers.add('Access-Control-Allow-Origin', '*')
+    return r
