@@ -3,14 +3,19 @@ import datetime
 import re, sys, json, os
 from bs4 import BeautifulSoup
 
+from datetime import datetime
+from threading import Timer
+
 #========================================================
 # logs
 import logging
 from logging.handlers import RotatingFileHandler
 
 def main():
-    os.mkdir('logs')
-    os.makedirs('web/api/programme_tv')
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    if not os.path.exists('web/api/programme_tv'):
+        os.makedirs('web/api/programme_tv')
 
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
@@ -90,19 +95,30 @@ def main():
     
                 chaine = top.select('a img')[0].attrs['alt'][10:]
                 page[chaine] = infos
-                out.append(page)
+            out.append(page)
         return out
-    
+
     for type_prog in types:
         logger.info(type_prog + ' starting')
     
         url = main_site + '/%s/' % type_prog
         urls = get_links(url)
         data = get_program(urls)
-    
+
         with open('web/api/programme_tv/' + type_prog + '.json', 'w+') as fp:
             json.dump(data, fp)
             logger.info(type_prog + ' done')
     
     logger.info('All done')
     
+
+def auto_scraper():
+    now = datetime.today()
+    y = now.replace(day=now.day + 1, hour=1, minute=0, second=0, microsecond=0)
+    delta_t = y - now
+    
+    secs = delta_t.seconds + 1
+
+    t = Timer(secs, main)
+    main()
+    t.start()
