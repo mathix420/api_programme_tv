@@ -4,7 +4,7 @@ import re, sys, json, os
 from bs4 import BeautifulSoup
 
 from datetime import datetime
-from threading import Timer
+from threading import Timer, Thread
 
 #========================================================
 # logs
@@ -119,6 +119,8 @@ def auto_scraper():
     
     secs = delta_t.seconds + 1
 
+    thread = Thread(target=main)
+    thread.start()
+
     t = Timer(secs, main)
-    main()
     t.start()
