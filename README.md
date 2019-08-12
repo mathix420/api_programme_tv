@@ -2,6 +2,8 @@
 
 https://api-tv.tk/api/tnt
 
+> Please note that free Heroku is a shitty hosting plateform for an api
+
 # Routes
 
 ```
